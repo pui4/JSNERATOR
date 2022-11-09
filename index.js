@@ -23,7 +23,7 @@ const year = date.getFullYear();
 async function start() {
     console.clear();
     const rainbowTitle = calkanim.rainbow(
-        'WELCOME TO JSERATOR'
+        'WELCOME TO JSNERATOR'
     );
 
     await sleep();

@@ -1,14 +1,15 @@
 {
-  "name": "jserator",
-  "version": "1.0.0",
+  "name": "jsnerator",
+  "version": "1.0.1",
   "description": "Generates a gitignore and license.",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ."
   },
   "author": "Daniel Pitman",
   "license": "MIT",
+  "bin": "./index.js",
   "dependencies": {
     "chalk": "^5.1.2",
     "chalk-animation": "^2.0.3",
