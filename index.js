@@ -13,7 +13,6 @@ const __dirname = path.dirname(__filename);
 
 let pLang;
 let lice;
-let projDir;
 let pName;
 
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
@@ -36,18 +35,8 @@ async function start() {
     clone('https://github.com/Precious13ui/markdown-licenses.git', './license', null, null);
     setTimeout(() => {
         spinner.success();
-        return setProjectDir();
+        return askPLanguge();
     }, 1000);
-}
-
-async function setProjectDir() {
-    const answers = await inquirer.prompt({
-        name: 'location',
-        type: 'input',
-        message: 'Were would you like the gitignore and license to go?'
-    });
-    projDir = answers.location;
-    return askPLanguge();
 }
 
 async function askPLanguge() {
@@ -118,7 +107,7 @@ async function handleGitArray(file_a) {
 async function moveGitIgnore(file) {
     let errored;
     const spinner = nanospinner.createSpinner('Moving your gitignore.').start();
-    fs.copyFile(path.join(__dirname, '/gitignore', file), path.join(projDir, '/.gitignore'), function (err) {
+    fs.copyFile(path.join(__dirname, '/gitignore', file), path.join(__dirname, '/.gitignore'), function (err) {
         if (err) {
             spinner.error();
             errored = true
@@ -257,7 +246,7 @@ async function parseLice(content) {
 async function finishLice(content) {
     let iserrored = false;
     const spinner = nanospinner.createSpinner('Moving your license.').start();
-    fs.writeFile(path.join(projDir, '/LICENSE'), content, function (err) {
+    fs.writeFile(path.join(__dirname, '/LICENSE'), content, function (err) {
         if (err){
             console.log(chalk.red(err));
             iserrored = true;
@@ -277,7 +266,7 @@ async function finishLice(content) {
 async function moveLice(file) {
     let iserrored;
     const spinner = nanospinner.createSpinner('Moving your license.').start();
-    fs.copyFile(path.join(__dirname, '/license', file), path.join(projDir, '/LICENSE'), function (err) {
+    fs.copyFile(path.join(__dirname, '/license', file), path.join(__dirname, '/LICENSE'), function (err) {
         if (err) {
             spinner.error();
             iserrored = true
