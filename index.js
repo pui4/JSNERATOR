@@ -4,7 +4,7 @@ import clone from 'git-clone';
 import calkanim from 'chalk-animation';
 import chalk from 'chalk';
 import fs from 'fs'
-import path from 'path';
+import path, { join } from 'path';
 import { fileURLToPath } from 'url';
 import nanospinner from 'nanospinner';
 
@@ -56,7 +56,7 @@ async function getGitFile() {
     let iserrored = false;
     const spinner = nanospinner.createSpinner('Searching for a gitignore.').start();
     var file_a = new Array();
-    fs.readdir(path.join(__dirname, '/gitignore'), function (err, files) {
+    fs.readdir("./gitignore", function (err, files) {
         //handling error
         if (err) {
             iserrored = true;
@@ -107,7 +107,7 @@ async function handleGitArray(file_a) {
 async function moveGitIgnore(file) {
     let errored;
     const spinner = nanospinner.createSpinner('Moving your gitignore.').start();
-    fs.copyFile(path.join(__dirname, '/gitignore', file), path.join(__dirname, '/.gitignore'), function (err) {
+    fs.copyFile(path.join('./gitignore/', file), "./.gitignore", function (err) {
         if (err) {
             spinner.error();
             errored = true
@@ -151,7 +151,7 @@ async function getlicense() {
     let iserrored = false;
     const spinner = nanospinner.createSpinner('Searching for a license.').start();
     var file_a = new Array();
-    fs.readdir(path.join(__dirname, '/license'), function (err, files) {
+    fs.readdir("./license", function (err, files) {
         //handling error
         if (err) {
             iserrored = true;
@@ -214,7 +214,7 @@ async function checkLice(file) {
 }
 
 async function readlicense(file) {
-    fs.readFile(path.join(__dirname, '/license/', file), 'utf8', (err, data) => {
+    fs.readFile(path.join("./license/", file), 'utf8', (err, data) => {
         if (err) {
           console.error(chalk.red(err));
           return;
@@ -246,7 +246,7 @@ async function parseLice(content) {
 async function finishLice(content) {
     let iserrored = false;
     const spinner = nanospinner.createSpinner('Moving your license.').start();
-    fs.writeFile(path.join(__dirname, '/LICENSE'), content, function (err) {
+    fs.writeFile("./LICENSE", content, function (err) {
         if (err){
             console.log(chalk.red(err));
             iserrored = true;
@@ -266,7 +266,7 @@ async function finishLice(content) {
 async function moveLice(file) {
     let iserrored;
     const spinner = nanospinner.createSpinner('Moving your license.').start();
-    fs.copyFile(path.join(__dirname, '/license', file), path.join(__dirname, '/LICENSE'), function (err) {
+    fs.copyFile(path.join('./license', file), "./LICENSE", function (err) {
         if (err) {
             spinner.error();
             iserrored = true
@@ -285,13 +285,13 @@ async function finish() {
     console.clear();
     let iserrored = false;
     const spinner = nanospinner.createSpinner('Cleaning up.').start();
-    fs.rmSync(path.join(__dirname, '/gitignore'), { recursive: true, force: true }, function (err) {
+    fs.rmSync('./gitignore', { recursive: true, force: true }, function (err) {
         if (err) {
             iserrored = true;
             console.log(chalk.red(err));
         }
     });
-    fs.rmSync(path.join(__dirname, '/license'), { recursive: true, force: true }, function (err) {
+    fs.rmSync('./license', { recursive: true, force: true }, function (err) {
         if (err) {
             iserrored = true;
             console.log(chalk.red(err));
