@@ -1,6 +1,7 @@
 # JSNERATOR
 Generates a gitignore and license in a specified directory.
 Made using nodejs and javascript (dependencys are listed in package.json).
+See full source code at: https://github.com/Precious13ui/JSNERATOR
 
 # HOW TO RUN
 Just run `npx jsnerator@latest` to run the package.

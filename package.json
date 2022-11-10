@@ -1,6 +1,6 @@
 {
   "name": "jsnerator",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Generates a gitignore and license.",
   "main": "index.js",
   "type": "module",
