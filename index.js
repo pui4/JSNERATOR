@@ -94,14 +94,18 @@ async function getGitFile() {
 
 async function handleGitArray(file_a) {
     console.clear();
+    var files = new Array();
+    file_a.forEach(function (file) {
+        files.push(file.toString().replace(".gitignore", ""));
+    });
     const answers = await inquirer.prompt({
         name: 'git_ig',
         type: 'list',
         message: 'We found multiple gitignore files with that name. Please pick the one you want.',
-        choices: file_a,
+        choices: files,
     });
 
-    return moveGitIgnore(answers.git_ig.toString());
+    return moveGitIgnore(answers.git_ig.toString().concat(".gitignore"));
 }
 
 async function moveGitIgnore(file) {
@@ -189,13 +193,17 @@ async function getlicense() {
 
 async function handleLiceArray(file_a) {
     console.clear();
+    var files = new Array();
+    file_a.forEach(function (file) {
+        files.push(file.toString().replace(".md", ""));
+    });
     const answers = await inquirer.prompt({
         name: 'liceID',
         type: 'list',
         message: 'We found multiple licenses with that name. Please chose one.',
-        choices: file_a,
+        choices: files,
     });
-    return checkLice(answers.liceID);
+    return checkLice(answers.liceID.toString().concat(".md"));
 }
 
 async function checkLice(file) {
