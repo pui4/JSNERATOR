@@ -44,7 +44,7 @@ async function askPLanguge() {
     const answers = await inquirer.prompt({
         name: 'p_Lang',
         type: 'input',
-        message: 'What programing language are you using?',
+        message: 'What programing language do you want?',
     });
 
     pLang = answers.p_Lang;
@@ -82,7 +82,7 @@ async function getGitFile() {
                     return handleGitArray(file_a);
                 } else {
                     spinner.success();
-                    return moveGitIgnore(file_a[0]);
+                    return checkIfExsists(file_a[0]);
                 }
             }
         } else {
@@ -105,7 +105,65 @@ async function handleGitArray(file_a) {
         choices: files,
     });
 
-    return moveGitIgnore(answers.git_ig.toString().concat(".gitignore"));
+    return checkIfExsists(answers.git_ig.toString().concat(".gitignore"));
+}
+
+async function checkIfExsists(file) {
+    console.clear();
+    try {
+        if (fs.existsSync('./.gitignore')) {
+            const answer = await inquirer.prompt({
+                name: 'c_apend',
+                type: 'confirm',
+                message: 'Do you want to add this to your other gitignore file?',
+                default: false,
+            });
+            if (answer.c_apend) {
+                handleGitWrite(file);
+            } else {
+                moveGitIgnore(file);
+            }
+        }
+        else {
+            moveGitIgnore(file);
+        }
+    } catch(err) {
+        console.log(chalk.red(err));
+    }
+}
+
+async function handleGitWrite(file) {
+    let iserrored = false;
+    const spinner = nanospinner.createSpinner('Modifying your gitignore.').start();
+    try {
+        const add = fs.readFileSync(path.join('./gitignore/', file), 'utf-8');
+        const base = fs.readFileSync('./.gitignore', 'utf-8');
+
+        if (add != base) {
+            const final = base.concat(add);
+            try {
+                fs.writeFileSync('./.gitignore', final);
+            } catch (err) {
+                console.log(chalk.red(err));
+                iserrored = true;
+            }
+        } else {
+            console.log(chalk.yellow("Already in gitignore."));
+            iserrored = true;
+        }
+    } catch (err) {
+        console.log(chalk.red(err));
+        iserrored = true;
+    }
+    setTimeout(() => {
+        if (!iserrored) {
+            spinner.success();
+            return askName();
+        } else {
+            spinner.error();
+            process.exit(1);
+        }
+    }, 1000);
 }
 
 async function moveGitIgnore(file) {
