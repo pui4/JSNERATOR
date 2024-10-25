@@ -1,3 +1,6 @@
+> [!WARNING]\
+> THIS NO LONGER WORKS AND IS UNSAFE. RUN AT YOUR OWN RISK!!!!
+
 # JSNERATOR
 Generates a gitignore and license in a specified directory.
 Made using nodejs and javascript (dependencys are listed in package.json).
